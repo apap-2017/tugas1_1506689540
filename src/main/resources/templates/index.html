@@ -1,0 +1,55 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+ 
+    <title>SI Kependudukan</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+ 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+</head>
+	<body>
+		<nav class="navbar navbar-inverse">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" th:href="'/'">SI Penduduk</a>
+		    </div>
+		    <ul class="nav navbar-nav">
+		      <li class="active"><a th:href="'/'">Home</a></li>
+		      <li><a th:href="'/penduduk/tambah'">Tambah Penduduk</a></li>
+		    </ul>
+		  </div>
+		</nav>
+		<div class="container">
+		<div class="jumbotron row">
+			<h2><b>Sistem Informasi Kependudukan DKI Jakarta</b> </h2>
+			<p>Selamat datang pada Sistem Informasi Kependudukan Online Provinsi DKI Jakarta.</p>
+			</div>
+				<div>
+					<form action="/keluarga" method="get" th:object="${keluarga}">			
+					<div class="row">
+						<div class="form-group">
+						<h3>Lihat Data Keluarga Berdasarkan NKK</h3>
+						<label for="nik">Masukan Nomor Kartu Keluarga</label> 
+						</div>
+						<div class="row col-sm-4 form-group"> <input type="text" name="nkk" class="form-control"/> </div>
+						</div>
+					<div class="row">
+						<button type="submit" class="btn btn-primary" name="action">Submit</button>
+					</div>
+					</form>
+				</div>
+				<div>
+					<form action="/penduduk" method="get" th:object="${penduduk}">			
+						<div class="row">
+							<div class="form-group">
+							<h3>Lihat Data Penduduk Berdasarkan NIK</h3>
+							<label for="nik">Masukan Nomor Induk Kependudukan</label> 
+							</div>
+							<div class="row col-sm-4 form-group"> <input type="text" name="nik" class="form-control"/> </div>
+							</div>
+						<div class="row">
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</form>
+				</div>
+			</div>
+	</body>
+</html>

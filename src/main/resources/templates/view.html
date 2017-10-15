@@ -1,0 +1,93 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+ 
+    <title>SIDUK</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+ 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+ 	
+</head>
+	<body>
+		<nav class="navbar navbar-inverse">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" th:href="'/'">SI Penduduk</a>
+		    </div>
+		    <ul class="nav navbar-nav">
+		      <li class="active"><a th:href="'/'">Home</a></li>
+		      <li><a href="#">Cari Data</a></li>
+		    </ul>
+		  </div>
+		</nav>
+		<div class="container">
+		<div class="row">
+		<div class="col-sm-3"></div>
+		<div class="col-sm-6 panel panel-default">
+		<div class="panel-body">
+		<h3 th:text="'Lihat data penduduk - '+${penduduk.nik}">Lihat data penduduk</h3>         
+			  <table class="table">
+			    <tbody>
+			      <tr>
+			        <td><b> Nama</b></td>
+			        <td th:text="${penduduk.nama}">NIK Penduduk</td>
+			      </tr>
+			      <tr>
+			        <td><b> Tempat/Tanggal Lahir</b></td>
+			        <td th:text="${penduduk.tempat_lahir}+', '+${penduduk.tanggal_lahir}">NIK Penduduk</td>
+			      </tr>
+			      <tr>
+			        <td><b> Jenis Kelamin</b></td>
+			        <td th:text="${penduduk.jenis_kelamin}=='1' ? 'Wanita' : 'Pria'">NIK Penduduk</td>
+			      </tr>
+			      
+			      <tr>
+			        <td><b> Alamat</b></td>
+			        <td th:text="${keluarga.alamat}">NIK Penduduk</td>
+			      </tr>
+			      <tr>
+			        <td><b> RT/RW</b></td>
+			        <td th:text="${keluarga.rt}+'/'+${keluarga.rw}">NIK Penduduk</td>
+			      </tr>
+			      <tr>
+			        <td><b> Kelurahan/Desa</b></td>
+			        <td th:text="${keluarga.kelurahan}">NIK Penduduk</td>
+			      </tr>
+			      <tr>
+			        <td><b> Kecamatan</b></td>
+			        <td th:text="${keluarga.kecamatan}">NIK Penduduk</td>
+			      </tr>
+			      <tr>
+			        <td><b> Kota</b></td>
+			        <td th:text="${keluarga.kota}">NIK Penduduk</td>
+			      </tr>
+			      <tr>
+			        <td><b> Golongan Darah</b></td>
+			        <td th:text="${penduduk.golongan_darah}">NIK Penduduk</td>
+			      </tr>
+			      <tr>
+			        <td><b> Agama</b></td>
+			        <td th:text="${penduduk.agama}">NIK Penduduk</td>
+			      </tr>
+			      <tr>
+			        <td><b> Status Perkawinan</b></td>
+			        <td th:text="${penduduk.status_perkawinan} ">NIK Penduduk</td>
+			      </tr>
+			      <tr>
+			        <td><b> Kewarganegaraan</b></td>
+			        <td th:text="${penduduk.is_wni}=='1' ? 'WNI': 'WNA'">NIK Penduduk</td>
+			      </tr>
+			      <tr>
+			        <td><b> Status Kematian</b></td>
+			        <td th:text="${penduduk.is_wafat}=='1' ? 'Wafat': 'Hidup'">NIK Penduduk</td>
+			      </tr>
+			      <tr>
+			      	<td class="text-right"><a th:href="'/penduduk/ubah/'+${penduduk.nik}" class="btn btn-primary">Update</a></td>
+			      	<td><a th:href="'/'" class="btn btn-danger">Nonaktifkan</a></td>
+			      </tr>
+			    </tbody>
+			  </table>
+			  </div>
+			  </div>
+		</div>
+		</div>
+	</body>
+</html>
