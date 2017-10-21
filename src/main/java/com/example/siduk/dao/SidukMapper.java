@@ -30,6 +30,7 @@ public interface SidukMapper {
 	    		@Result(property="alamat", column="alamat"),
 	    		@Result(property="rt", column="rt"),
 	    		@Result(property="rw", column="rw"),
+	    		@Result(property="id_kelurahan", column="id_kelurahan"),
 	    		@Result(property="kelurahan", column="nama_kelurahan"),
 	    		@Result(property="kecamatan", column="nama_kecamatan"),
 	    		@Result(property="kota", column="nama_kota"),
@@ -39,13 +40,6 @@ public interface SidukMapper {
 	    		many=@Many(select="selectAnggota"))
 	    })
 	KeluargaModel selectKeluarga(@Param("nkk") String nkk);
-	 
-	 @Update ("update penduduk set nama=#{nama}, "
-	 		+ "id_keluarga=#{id_keluarga}, pekerjaan=#{pekerjaan}, jenis_kelamin=#{jenis_kelamin}, "
-	 		+ "agama=#{agama}, tanggal_lahir=#{tanggal_lahir}, is_wni=#{is_wni},"
-	 		+ " status_dalam_keluarga=#{status_dalam_keluarga}, golongan_darah=#{golongan_darah},"
-	 		+ " tempat_lahir=#{tempat_lahir}, status_perkawinan=#{status_perkawinan} where nik=#{nik}")
-	 void updatePenduduk(PendudukModel penduduk);
 
 	 @Select("select * from keluarga join kelurahan on id_kelurahan=kelurahan.id"
 		 		+ " join kecamatan on kecamatan.id=id_kecamatan join kota on kota.id=id_kota "
@@ -55,6 +49,7 @@ public interface SidukMapper {
 		    		@Result(property="alamat", column="alamat"),
 		    		@Result(property="rt", column="rt"),
 		    		@Result(property="rw", column="rw"),
+		    		@Result(property="id_kelurahan", column="id_kelurahan"),
 		    		@Result(property="kelurahan", column="nama_kelurahan"),
 		    		@Result(property="kecamatan", column="nama_kecamatan"),
 		    		@Result(property="kota", column="nama_kota"),
@@ -73,11 +68,31 @@ public interface SidukMapper {
 	void addPenduduk(PendudukModel penduduk);
 
 	@Select("select * from penduduk where nik like CONCAT(#{nik},'%') order by nik desc limit 1")
-	PendudukModel checkDouble(String nik);
+	PendudukModel checkDoubleNIK(String nik);
+	
+	
+	 @Update ("update penduduk set nik=#{nikbaru}, nama=#{penduduk.nama}, "
+	 		+ "id_keluarga=#{penduduk.id_keluarga}, pekerjaan=#{penduduk.pekerjaan}, jenis_kelamin=#{penduduk.jenis_kelamin}, "
+	 		+ "agama=#{penduduk.agama}, tanggal_lahir=#{penduduk.tanggal_lahir}, is_wni=#{penduduk.is_wni},"
+	 		+ " status_dalam_keluarga=#{penduduk.status_dalam_keluarga}, golongan_darah=#{penduduk.golongan_darah},"
+	 		+ " tempat_lahir=#{penduduk.tempat_lahir}, status_perkawinan=#{penduduk.status_perkawinan} where nik=#{penduduk.nik}")
+	 void updatePenduduk(@Param("penduduk") PendudukModel penduduk, @Param("nikbaru") String nikbaru);
+	 
+//	@Update("UPDATE penduduk set nik=#{nikbaru} WHERE nik=#{niklama}")
+//	void updateNik(@Param("niklama") String niklama,@Param("nikbaru") String nikbaru);
+	
+	
+	@Select("select kode_kelurahan from kelurahan where nama_kelurahan=#{kelurahan}")
+	String selectNoKelurahan(String kelurahan);
 
-	@Update("UPDATE penduduk set nik=#{nikbaru} WHERE nik=#{niklama}")
-	void updateNik(@Param("niklama") String niklama,@Param("nikbaru") String nikbaru);
+	@Select("select * from keluarga where nomor_kk like CONCAT(#{nkk},'%') order by nomor_kk desc limit 1")
+	KeluargaModel checkDoubleNKK(String nkk);
 
-//	@Select("select * from kelurahan where id=#{}")
-//	String getKelurahan(String nomor_kk);
+	@Insert("INSERT INTO keluarga (nomor_kk, alamat, rt, rw, id_kelurahan, is_tidak_berlaku) values (#{nomor_kk}, #{alamat}, #{rt}, #{rw}, "
+			+ "#{id_kelurahan}, #{is_tidak_berlaku})")
+	void addKeluarga(KeluargaModel keluarga);
+	
+	@Update ("UPDATE keluarga set nomor_kk=#{nkkbaru}, alamat=#{keluarga.alamat}, rt=#{keluarga.rt}, rw=#{keluarga.rw}, #id_kelurahan={keluarga.id_keluharan} where nomor_kk=#{keluarga.nomor_kk}")
+	void updateKeluarga(@Param("keluarga") KeluargaModel keluarga, @Param("nkkbaru") String nkkbaru);
+
 }

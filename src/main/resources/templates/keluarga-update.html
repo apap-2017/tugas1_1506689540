@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Tambah Penduduk</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+	<body>
+	
+		<h1 class="page-header">Tambah Keluarga</h1>
+		
+		<form th:action="'/keluarga/ubah/'+${keluarga.nomor_kk}" th:object="${keluarga}" method="POST">
+			<label for="alamat">Alamat</label> <input type="text" name="alamat" th:value="*{alamat}"/>
+			<label for="rw">RW</label> <input type="text" name="rw" th:value="*{rw}"/>
+			<label for="rt">RT</label> <input type="text" name="rt" th:value="*{rt}"/>
+			<label for="kelurahan">Kelurahan</label> <input type="text" name="kelurahan" th:value="*{kelurahan}"/>
+			<div>
+			<button type="submit" name="action" value="save">Save</button>
+			</div>
+		</form>
+
+	</body>
+
+</html>

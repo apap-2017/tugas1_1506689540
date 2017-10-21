@@ -1,69 +1,84 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 	<head lang="en">
-	 
-	    <title>SIDUK</title>
-	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-	 	<link rel="stylesheet" href="/bootstrap/css/custom.css"/>
+		<div th:replace="fragments/fragment :: kepala"></div>
 	</head>
-	<body>
-		<nav class="navbar navbar-inverse">
-		  <div class="container-fluid">
-		    <div class="navbar-header">
-		      <a class="navbar-brand" th:href="'/'">SI Penduduk</a>
-		    </div>
-		    <ul class="nav navbar-nav">
-		      <li class="active"><a th:href="'/'">Home</a></li>
-		      <li><a th:href="'/penduduk/tambah'">Tambah Penduduk</a></li>
-		    </ul>
-		  </div>
-		</nav>
+	<body>	
+		<div th:replace="fragments/fragment :: header"></div>
+		<div th:replace="fragments/fragment :: space"></div>
 		<div class="container">
 			<h1 class="page-header">Tambah Penduduk</h1>
+			<hr/>
+			<div class="row">
+			<div class="col-md-4">
 			<form action="/penduduk/tambah" th:object="${penduduk}" method="POST">
-				<div>
-					<label for="nama">Nama</label> <input type="text" name="nama" />
+				<div class="form-group">
+					<label for="nama" ><b>Nama Lengkap</b></label>
+					<input type="text" class="form-control" name="nama" />
 				</div>
-				<div>
-					<label for="tempat_lahir">Tempat Lahir</label> <input type="text" name="tempat_lahir" />
+				<div class="form-group">
+					<label for="tempat_lahir"><b>Tempat Lahir</b></label> 
+					<input type="text" class="form-control" name="tempat_lahir" />
 				</div>
-				<div>
-					<label for="tanggal_lahir">Tanggal Lahir</label> <input type="text" name="tanggal_lahir" />
-					<br><i>Format: DD-MM-YYYY</i></br>
+				<div class="form-group">
+					<label for="tanggal_lahir"><b>Tanggal Lahir</b></label>
+					<input type="text" class="form-control" name="tanggal_lahir" />
+					<small><i>Format: YYYY-MM-DD</i></small>
 				</div>
-				<div>
-					<label for="is_wni">Is WNI</label> <input type="text" name="is_wni" />
+				<div class="form-group">
+					<label for="jenis_kelamin"><b>Jenis Kelamin</b></label> 
+					<div>
+						<label class="radio"><input type="radio" name="jenis_kelamin" th:value="1" /> Wanita</label>
+					</div>
+					<div>
+						<label class="radio"><input type="radio" name="jenis_kelamin" th:value="0" /> Pria</label>
+					</div>
 				</div>
-				<div>
-					<label for="id_keluarga">Id Keluarga</label> <input type="text" name="id_keluarga" />
+				<div class="form-group">
+					<label for="golongan_darah"><b>Golongan Darah</b></label>
+					<input type="text" class="form-control" name="golongan_darah" />
 				</div>
-				<div>
-					<label for="agama">Agama</label> <input type="text" name="agama" />
+				<div class="form-group">
+					<label for="id_keluarga"><b>ID Keluarga</b></label>
+					<input type="text" class="form-control" name="id_keluarga" />
 				</div>
-				<div>
-					<label for="pekerjaan">Pekerjaan</label> <input type="text" name="pekerjaan" />
+				<div class="form-group">
+					<label for="agama"><b>Agama</b></label>
+					<input type="text" class="form-control" name="agama" />
 				</div>
-				<div>
-					<label for="status_perkawinan">Status Perkawinan</label> 
-					<div><input type="radio" name="status_perkawinan" value="Kawin" />Kawin</div>
-					<div><input type="radio" name="status_perkawinan" value="Belum  Kawin" />Belum Kawin</div>
+				<div class="form-group">
+					<label for="pekerjaan"><b>Pekerjaan</b></label>
+					<input type="text" class="form-control" name="pekerjaan" />
 				</div>
-				<div>
-					<label for="status_dalam_keluarga">Status Dalam Keluarga</label> <input type="text" name="status_dalam_keluarga" />
+				<div class="form-group">
+					<label for="status_dalam_keluarga"><b>Status Dalam Keluarga</b></label>
+					<input type="text" class="form-control" name="status_dalam_keluarga" />
 				</div>
-				<div>
-					<label for="golongan_darah">Golongan Darah</label> <input type="text" name="golongan_darah" />
+				<div class="form-group">
+					<label for="status_perkawinan"><b>Status Perkawinan</b></label>
+					<div>
+						<label><input type="radio" name="status_perkawinan" value="Kawin" />Kawin</label>
+					</div>
+					<div>
+						<label><input type="radio" name="status_perkawinan" value="Belum  Kawin" />Belum Kawin</label>
+					</div>
 				</div>
-				<div>
-					<label for="jenis_kelamin">Jenis Kelamin</label> 
-					<div><input type="radio" name="jenis_kelamin" value="1" />Wanita</div>
-					<div><input type="radio" name="jenis_kelamin" value="0" />Pria</div>
+				<div class="form-group">
+					<label for="is_wni"><b>Kewarganegaraan</b></label> 
+					<div>
+						<label class="radio"><input type="radio" name="is_wni" th:value="1" /> WNI</label>
+					</div>
+					<div>
+						<label class="radio"><input type="radio" name="is_wni" th:value="0" /> WNA</label>
+					</div>
 				</div>
-				<div>
-					<button type="submit" name="action" value="save">Save</button>
+				<div class="form-group">
+					<button type="submit" class="btn btn-lg btn-primary" name="action" value="save">Save</button>
 				</div>
 			</form>
+			</div>
+			</div>
 		</div>
+		<div th:replace="fragments/fragment :: footer"></div>
 	</body>
 </html>

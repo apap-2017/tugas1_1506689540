@@ -22,8 +22,9 @@ public class SidukController {
     SidukService sidukDAO;
 	
 	@RequestMapping("/")
-    public String index ()
+    public String index (Model model)
     {
+		model.addAttribute("title", "Sistem Kependudukan DKI Jakarta");
         return "index";
     }
 	
@@ -32,6 +33,7 @@ public class SidukController {
             @RequestParam(value = "nik", required = false) String nik)
     {
         PendudukModel penduduk = sidukDAO.selectPenduduk (nik);
+        model.addAttribute("title", "Detil Penduduk");
 
         if (penduduk != null) {
             model.addAttribute ("penduduk", penduduk);
@@ -57,6 +59,30 @@ public class SidukController {
         }
     }
 	
+
+	@RequestMapping("/penduduk/tambah")
+	public String addPenduduk(Model model) {
+        model.addAttribute("title", "Tambah Penduduk Baru");
+		return "addpenduduk";
+	}
+	
+	@RequestMapping(value="/penduduk/tambah", method=RequestMethod.POST)
+	public String addPendudukModel(@ModelAttribute PendudukModel penduduk) {
+		sidukDAO.addPenduduk(penduduk);
+		return "success-add";
+	}
+	
+	@RequestMapping("/keluarga/tambah")
+	public String addKeluarga() {
+		return "addkeluarga";
+	}
+	
+	@RequestMapping(value="/keluarga/tambah", method=RequestMethod.POST)
+	public String addKeluargaModel(@ModelAttribute KeluargaModel keluarga) {
+		sidukDAO.addKeluarga(keluarga);
+		return "success-add";
+	}
+	
 	@RequestMapping("/penduduk/ubah/{nik}")
     public String ubahPenduduk (Model model,
             @PathVariable(value = "nik") String nik)
@@ -78,26 +104,26 @@ public class SidukController {
     	model.addAttribute(penduduk);
     	return "success-update";
     }
+	
+	@RequestMapping("/keluarga/ubah/{nkk}")
+    public String ubahKeluarga (Model model,
+            @PathVariable(value = "nkk") String nkk)
+    {
+        KeluargaModel keluarga = sidukDAO.selectKeluarga (nkk);
 
-	@RequestMapping("/penduduk/tambah")
-	public String addPenduduk() {
-		return "addpenduduk";
-	}
+        if (keluarga != null) {
+            model.addAttribute ("keluarga", keluarga);
+            return "keluarga-update";
+        } else {
+            model.addAttribute ("nkk", nkk);
+            return "not-found";
+        }
+    }
 	
-	@RequestMapping(value="/penduduk/tambah", method=RequestMethod.POST)
-	public String addPendudukModel(@ModelAttribute PendudukModel penduduk) {
-		sidukDAO.addPenduduk(penduduk);
-		return "success-add";
-	}
-	
-//	@RequestMapping("/keluarga/tambah")
-//	public String addKeluarga() {
-//		return "addkeluarga";
-//	}
-//	
-//	@RequestMapping(value="/keluarga/tambah", method=RequestMethod.POST)
-//	public String addKeluargaModel(@ModelAttribute KeluargaModel keluarga) {
-//		sidukDAO.addKeluarga(keluarga);
-//		return "success-add";
-//	}
+	@RequestMapping(value="/keluarga/ubah/{nkk}", method=RequestMethod.POST)
+    public String keluargaSubmit(Model model, @ModelAttribute KeluargaModel keluarga) {
+    	sidukDAO.updateKeluarga(keluarga);
+    	model.addAttribute(keluarga);
+    	return "success-update";
+    }
 }

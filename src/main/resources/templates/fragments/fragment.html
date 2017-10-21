@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<div th:fragment="kepala">
+			<title th:text="'SIDUK - '+${title}">Title</title>
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" />
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+		</div>
+	</head>
+	
+	<body>
+		<div th:fragment="space">
+		<br/><br/><br/></div>
+		<div th:fragment="header">
+		    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-primary" style="background-color: #353e77;">
+		      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+		        <span class="navbar-toggler-icon"></span>
+		      </button>
+		      <a class="navbar-brand" href="#">SIDUK</a>
+		      <div class="collapse navbar-collapse" id="navbarCollapse">
+		        <ul class="navbar-nav mr-auto">
+		          <li class="nav-item active">
+		            <a class="nav-link" href="/">Home</a>
+		          </li>
+		          <li class="nav-item">
+		            <a class="nav-link" href="/penduduk/tambah">Tambah Penduduk</a>
+		          </li>
+		          <li class="nav-item">
+		            <a class="nav-link" href="/keluarga/tambah">Tambah Keluarga</a>
+		          </li>
+		         </ul>
+		        </div>
+		    </nav>
+		</div>
+		
+		<div th:fragment="footer">
+			<br/><hr/>
+			<footer class="footer">
+		    <div class="container">
+		    <span class="text-muted">Tugas 1 Individu Mata Kuliah ADPAP 2017/2018</span>
+		    </div>
+		    </footer>
+		    <br/>
+		</div>
+	</body>
+</html>

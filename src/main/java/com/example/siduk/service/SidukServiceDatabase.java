@@ -1,5 +1,8 @@
 package com.example.siduk.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,8 +52,7 @@ public class SidukServiceDatabase implements SidukService {
 		String nikbaru = generateNIK(penduduk);
 		log.info("update penduduk nik lama {}", penduduk.getNik());
 		log.info("update penduduk nik baru {}", nikbaru);
-		sidukMapper.updatePenduduk(penduduk);
-		sidukMapper.updateNik(penduduk.getNik(), nikbaru);
+		sidukMapper.updatePenduduk(penduduk, nikbaru);
 		log.info("update kelamin penduduk {}", penduduk.getJenis_kelamin());
 		
 	}
@@ -96,14 +98,14 @@ public class SidukServiceDatabase implements SidukService {
 		
 		String[] tgl = penduduk.getTanggal_lahir().split("-");
 		nik += tgl[0].substring(2)+tgl[1];
-		nik += (Integer.parseInt(tgl[2]) + 
-				Integer.parseInt(penduduk.getJenis_kelamin())*40) + "";
-				
+		int tanggal = Integer.parseInt(tgl[2]) + Integer.parseInt(penduduk.getJenis_kelamin())*40;
+		if(tanggal<10) nik+="0";
+		nik += tanggal;		
 		log.info("add penduduk dengan id 2 {}", nik);
-		PendudukModel doubles = sidukMapper.checkDouble(nik);
+		PendudukModel doubles = sidukMapper.checkDoubleNIK(nik);
 		
 		if (doubles == null || penduduk.getNik().equals(doubles.getNik())) {
-			log.info("belum ada nik tersebut {}", nik+"0001");
+			log.info("belum ada nik tersebut {}", nik);
 			nik += "0001";
 		}
 		else {
@@ -114,15 +116,45 @@ public class SidukServiceDatabase implements SidukService {
 		return nik;
 	}
 
-//	@Override
-//	public void addKeluarga(KeluargaModel keluarga) {
-//		keluarga.setNomor_kk(generateNkk(keluarga));
-//		
-//	}
 
-//	private String generateNkk( KeluargaModel keluarga) {
-//		String nkk = keluarga.getNomor_kk().substring(0,6);
-//		return nkk;
-//	}
+	@Override
+	public void addKeluarga(KeluargaModel keluarga) {
+		keluarga.setNomor_kk(generateNkk(keluarga));
+		keluarga.set_tidak_berlaku(false);
+		log.info(keluarga.getNomor_kk().substring(0, 6));
+		String id = sidukMapper.checkDoubleNKK(keluarga.getNomor_kk().substring(0, 6)).getId_kelurahan();
+		log.info(id);
+		keluarga.setId_kelurahan(id);
+		sidukMapper.addKeluarga(keluarga);
+	}
+
+	private String generateNkk( KeluargaModel keluarga) {
+		String nkk = sidukMapper.selectNoKelurahan(keluarga.getKelurahan()).substring(0,6);
+		log.info("Nomor KK 1 {}", nkk);
+		LocalDate date = LocalDate.now(); 
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+		nkk+= date.format(formatter);
+		log.info(nkk);
+		KeluargaModel doubles = sidukMapper.checkDoubleNKK(nkk);
+		
+		if (doubles == null) {
+			log.info("belum ada nkk tersebut {}", nkk+"0001");
+			nkk += "0001";
+		}
+		else {
+			long doublesL = Long.parseLong(doubles.getNomor_kk())+1;
+			nkk = doublesL+"";
+			log.info(nkk+" berhasil");
+		}
+		return nkk;
+	}
+
+	@Override
+	public void updateKeluarga(KeluargaModel keluarga) {
+		String nkkbaru = generateNkk(keluarga);
+		log.info("NKK baru {}", nkkbaru);
+		sidukMapper.updateKeluarga(keluarga, nkkbaru);
+		
+	}
 
 }

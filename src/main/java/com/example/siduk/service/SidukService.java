@@ -15,7 +15,9 @@ public interface SidukService{
 	KeluargaModel selectAlamat(String id_keluarga);
 
 	void addPenduduk(PendudukModel penduduk);
-//
-//	void addKeluarga(KeluargaModel keluarga);
+
+	void addKeluarga(KeluargaModel keluarga);
+
+	void updateKeluarga(KeluargaModel keluarga);
 
 }

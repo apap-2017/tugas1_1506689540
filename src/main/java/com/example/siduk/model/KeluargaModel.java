@@ -15,6 +15,7 @@ public class KeluargaModel {
 	private String alamat;
 	private String rt;
 	private String rw;
+	private String id_kelurahan;
 	private String kelurahan;
 	private String kecamatan;
 	private String kota;

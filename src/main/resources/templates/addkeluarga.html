@@ -3,16 +3,21 @@
  xmlns:th="http://www.thymeleaf.org">
 <head>
 
-<title>Tambah Penduduk</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<div th:replace="fragments/fragment :: kepala"></div>
 </head>
 
 	<body>
-	
+		
+		<div th:replace="fragments/fragment :: header"></div>
+		<div th:replace="fragments/fragment :: space"></div>
+		
 		<h1 class="page-header">Tambah Keluarga</h1>
 		
 		<form action="/keluarga/tambah" th:object="${keluarga}" method="POST">
-		
+			<label for="alamat">Alamat</label> <input type="text" name="alamat" />
+			<label for="rw">RW</label> <input type="text" name="rw" />
+			<label for="rt">RT</label> <input type="text" name="rt" />
+			<label for="kelurahan">Kelurahan</label> <input type="text" name="kelurahan" />
 			<div>
 			<button type="submit" name="action" value="save">Save</button>
 			</div>
