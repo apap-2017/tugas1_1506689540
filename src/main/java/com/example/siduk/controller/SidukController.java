@@ -1,5 +1,7 @@
 package com.example.siduk.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 import com.example.siduk.model.KeluargaModel;
+import com.example.siduk.model.KotaModel;
 import com.example.siduk.model.PendudukModel;
 import com.example.siduk.service.SidukService;
 
@@ -27,6 +30,14 @@ public class SidukController {
 		model.addAttribute("title", "Sistem Kependudukan DKI Jakarta");
         return "index";
     }
+	
+	@RequestMapping("/penduduk/cari")
+	public String cariPenduduk(Model model) {
+		model.addAttribute("title", "Pencarian Penduduk");
+		List<KotaModel> kotas = sidukDAO.getListKota();
+		model.addAttribute("kotas", kotas);
+		return "cari-data";
+	}
 	
 	@RequestMapping("/penduduk")
     public String viewPenduduk (Model model,
@@ -49,7 +60,8 @@ public class SidukController {
             @RequestParam(value = "nkk", required = false) String nkk)
     {
         KeluargaModel keluarga = sidukDAO.selectKeluarga (nkk);
-
+        model.addAttribute("title", "Detil Keluarga");
+        
         if (keluarga != null) {
             model.addAttribute ("keluarga", keluarga);
             return "viewkk";
@@ -67,8 +79,10 @@ public class SidukController {
 	}
 	
 	@RequestMapping(value="/penduduk/tambah", method=RequestMethod.POST)
-	public String addPendudukModel(@ModelAttribute PendudukModel penduduk) {
+	public String addPendudukModel(Model model, @ModelAttribute PendudukModel penduduk) {
+		model.addAttribute("title", "Sukses ditambahkan");
 		sidukDAO.addPenduduk(penduduk);
+		model.addAttribute("tipe_sukses", "Penduduk dengan NIK "+penduduk.getNik());
 		return "success-add";
 	}
 	
@@ -78,8 +92,9 @@ public class SidukController {
 	}
 	
 	@RequestMapping(value="/keluarga/tambah", method=RequestMethod.POST)
-	public String addKeluargaModel(@ModelAttribute KeluargaModel keluarga) {
+	public String addKeluargaModel(Model model, @ModelAttribute KeluargaModel keluarga) {
 		sidukDAO.addKeluarga(keluarga);
+		model.addAttribute("tipe_sukses", "Keluarga dengan NKK "+keluarga.getNomor_kk());
 		return "success-add";
 	}
 	
@@ -88,6 +103,7 @@ public class SidukController {
             @PathVariable(value = "nik") String nik)
     {
         PendudukModel penduduk = sidukDAO.selectPenduduk (nik);
+        model.addAttribute("title", "Perbaharui Keluarga - "+penduduk.getNik());
 
         if (penduduk != null) {
             model.addAttribute ("penduduk", penduduk);
@@ -102,14 +118,21 @@ public class SidukController {
     public String pendudukSubmit(Model model, @ModelAttribute PendudukModel penduduk) {
     	sidukDAO.updatePenduduk(penduduk);
     	model.addAttribute(penduduk);
+        model.addAttribute("tipe_sukses", "Data Penduduk dengan NIK "+penduduk.getNik());
     	return "success-update";
     }
+	
+//	@RequestMapping(value="/penduduk/mati", method=RequestMethod.POST)
+//	public String nonAktifPenduduk(Model model, @ModelAttribute PendudukModel penduduk) {
+//		sidukDAO.updateKematian()
+//	}
 	
 	@RequestMapping("/keluarga/ubah/{nkk}")
     public String ubahKeluarga (Model model,
             @PathVariable(value = "nkk") String nkk)
     {
         KeluargaModel keluarga = sidukDAO.selectKeluarga (nkk);
+        model.addAttribute("title", "Perbaharui Keluarga - "+nkk);
 
         if (keluarga != null) {
             model.addAttribute ("keluarga", keluarga);
@@ -121,9 +144,10 @@ public class SidukController {
     }
 	
 	@RequestMapping(value="/keluarga/ubah/{nkk}", method=RequestMethod.POST)
-    public String keluargaSubmit(Model model, @ModelAttribute KeluargaModel keluarga) {
-    	sidukDAO.updateKeluarga(keluarga);
+    public String keluargaSubmit(Model model, @PathVariable(value = "nkk") String nkk, @ModelAttribute KeluargaModel keluarga) {
+    	sidukDAO.updateKeluarga(keluarga,nkk);
     	model.addAttribute(keluarga);
+        model.addAttribute("title", "Perbaharui Keluarga - "+nkk);
     	return "success-update";
     }
 }

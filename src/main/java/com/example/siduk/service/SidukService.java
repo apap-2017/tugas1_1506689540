@@ -1,5 +1,8 @@
 package com.example.siduk.service;
 
+import java.util.List;
+
+import com.example.siduk.model.KotaModel;
 import com.example.siduk.model.KeluargaModel;
 import com.example.siduk.model.PendudukModel;
 
@@ -18,6 +21,8 @@ public interface SidukService{
 
 	void addKeluarga(KeluargaModel keluarga);
 
-	void updateKeluarga(KeluargaModel keluarga);
+	void updateKeluarga(KeluargaModel keluarga, String nkk);
+
+	List<KotaModel> getListKota();
 
 }

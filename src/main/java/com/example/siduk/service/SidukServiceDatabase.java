@@ -2,12 +2,14 @@ package com.example.siduk.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.siduk.dao.SidukMapper;
 import com.example.siduk.model.KeluargaModel;
+import com.example.siduk.model.KotaModel;
 import com.example.siduk.model.PendudukModel;
 
 import lombok.extern.slf4j.Slf4j;
@@ -45,14 +47,18 @@ public class SidukServiceDatabase implements SidukService {
 	 * bisa generate nik baru jika,
 	 * id_keluarga, jenis_kelamin dan tgl lahir berubah
 	 * DONE.
-	 * HTML : penduduk-update NOT DONE.
+	 * HTML : PENDUDUK-UPDATE
 	 */
 	@Override
 	public void updatePenduduk(PendudukModel penduduk) {
-		String nikbaru = generateNIK(penduduk);
-		log.info("update penduduk nik lama {}", penduduk.getNik());
-		log.info("update penduduk nik baru {}", nikbaru);
-		sidukMapper.updatePenduduk(penduduk, nikbaru);
+		String nik = generateNIK(penduduk);
+		String niklama = penduduk.getNik();
+		log.info("update penduduk nik lama {}", niklama);
+		log.info("update penduduk nik baru {}", nik);
+		sidukMapper.updatePenduduk(penduduk);
+		if(!nik.equals(penduduk.getNik())) {
+			sidukMapper.updateNIK(nik, niklama);
+		}
 		log.info("update kelamin penduduk {}", penduduk.getJenis_kelamin());
 		
 	}
@@ -61,7 +67,7 @@ public class SidukServiceDatabase implements SidukService {
 	 * METHOD SELECT ALAMAT:
 	 * mengambil object keluarga berdasarkan id_keluarga
 	 * DONE.
-	 * HTML :VIEW DONE
+	 * HTML :VIEW
 	 */
 	@Override
 	public KeluargaModel selectAlamat(String id_keluarga) {
@@ -75,7 +81,7 @@ public class SidukServiceDatabase implements SidukService {
 	 * is_wafat ototmatis 0 tiap dimasukan.
 	 * (asumsi setiap penduduk yang baru dimasukan selalu hidup)
 	 * DONE.
-	 * HTML: addpenduduk NOT DONE
+	 * HTML: ADDPENDUDUK
 	 */
 	@Override
 	public void addPenduduk(PendudukModel penduduk) {
@@ -90,7 +96,7 @@ public class SidukServiceDatabase implements SidukService {
 	 * METHOD GENERATE NIK:
 	 * Membuat nomor induk kependudukan untuk penduduk sesuai data yang diberikan
 	 * @param penduduk
-	 * @return
+	 * @return String nik
 	 */
 	public String generateNIK(PendudukModel penduduk) {
 		String nik = sidukMapper.selectAlamat(penduduk.getId_keluarga()).getNomor_kk().substring(0,6);
@@ -104,10 +110,10 @@ public class SidukServiceDatabase implements SidukService {
 		log.info("add penduduk dengan id 2 {}", nik);
 		PendudukModel doubles = sidukMapper.checkDoubleNIK(nik);
 		
-		if (doubles == null || penduduk.getNik().equals(doubles.getNik())) {
+		if (doubles == null) {
 			log.info("belum ada nik tersebut {}", nik);
 			nik += "0001";
-		}
+		} 
 		else {
 			long doublesL = Long.parseLong(doubles.getNik())+1;
 			nik = doublesL+"";
@@ -120,14 +126,19 @@ public class SidukServiceDatabase implements SidukService {
 	@Override
 	public void addKeluarga(KeluargaModel keluarga) {
 		keluarga.setNomor_kk(generateNkk(keluarga));
-		keluarga.set_tidak_berlaku(false);
+		keluarga.setIs_tidak_berlaku("0");
 		log.info(keluarga.getNomor_kk().substring(0, 6));
 		String id = sidukMapper.checkDoubleNKK(keluarga.getNomor_kk().substring(0, 6)).getId_kelurahan();
 		log.info(id);
 		keluarga.setId_kelurahan(id);
 		sidukMapper.addKeluarga(keluarga);
 	}
-
+	/**
+	 * Method Generate NKK:
+	 * membuat nomorkk sesuai masukan
+	 * @param keluarga
+	 * @return String nomor_kk
+	 */
 	private String generateNkk( KeluargaModel keluarga) {
 		String nkk = sidukMapper.selectNoKelurahan(keluarga.getKelurahan()).substring(0,6);
 		log.info("Nomor KK 1 {}", nkk);
@@ -150,10 +161,23 @@ public class SidukServiceDatabase implements SidukService {
 	}
 
 	@Override
-	public void updateKeluarga(KeluargaModel keluarga) {
+	public void updateKeluarga(KeluargaModel keluarga, String nkk) {
 		String nkkbaru = generateNkk(keluarga);
+		KeluargaModel kellama = sidukMapper.checkDoubleNKK(nkk);
+		log.info("NKK lama {}", kellama.getNomor_kk());
+		String nkid = sidukMapper.selectNoKelurahan(keluarga.getKelurahan()).substring(0,6);
+		String id = sidukMapper.checkDoubleNKK(nkid.substring(0, 6)).getId_kelurahan();
+		log.info(id);
+		sidukMapper.updateKeluarga(keluarga.getAlamat(), id, keluarga.getRt(), keluarga.getRw(), kellama.getNomor_kk());
 		log.info("NKK baru {}", nkkbaru);
-		sidukMapper.updateKeluarga(keluarga, nkkbaru);
+		if (!kellama.getNomor_kk().equals(nkkbaru))
+		sidukMapper.updateNKK(nkkbaru, kellama.getNomor_kk());
+		
+	}
+
+	@Override
+	public List<KotaModel> getListKota() {
+		return sidukMapper.getListKota();
 		
 	}
 

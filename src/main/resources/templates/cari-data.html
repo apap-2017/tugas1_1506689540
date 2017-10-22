@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+ <div th:replace="fragments/fragment :: kepala"></div>
+</head>
+	<body>
+		<div th:replace="fragments/fragment :: header"></div>
+		<div th:replace="fragments/fragment :: space"></div>
+		<div class="container">
+			<div class="form-group blu-margin">
+			    <select class="form-control">
+			    <option th:each="kota : ${kotas}" th:value="${kota.kode_kota}" th:text="${kota.nama_kota}"></option>
+			    </select>
+			</div>
+		</div>
+		
+		<div th:replace="fragments/fragment :: footer"></div>
+	</body>
+</html>

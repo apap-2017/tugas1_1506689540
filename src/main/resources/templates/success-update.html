@@ -1,25 +1,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
- 
-    <title>SIDUK</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
- 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
- 	
+ <div th:replace="fragments/fragment :: kepala"></div>
 </head>
 	<body>
-		<nav class="navbar navbar-inverse">
-		  <div class="container-fluid">
-		    <div class="navbar-header">
-		      <a class="navbar-brand" th:href="'/'">SI Penduduk</a>
-		    </div>
-		    <ul class="nav navbar-nav">
-		      <li class="active"><a th:href="'/'">Home</a></li>
-		      <li><a th:href="'/penduduk/tambah/'">Tambah Data</a></li>
-		    </ul>
-		  </div>
-		</nav>
+		<div th:replace="fragments/fragment :: header"></div>
+		<div th:replace="fragments/fragment :: space"></div>
 		<div class="container">
-		<h2>Data berhasil diubah</h2>
+		<h2>Sukses!</h2>
+		<h4 th:text="${tipe_sukses}+' berhasil diubah'">Data berhasil ditambahkan</h4>
 		</div>
+		
+		<div th:replace="fragments/fragment :: footer"></div>
 	</body>
 </html>

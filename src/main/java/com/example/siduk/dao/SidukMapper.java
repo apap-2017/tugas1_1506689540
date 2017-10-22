@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.example.siduk.model.KeluargaModel;
+import com.example.siduk.model.KotaModel;
 import com.example.siduk.model.PendudukModel;
 
 @Mapper
@@ -71,15 +72,15 @@ public interface SidukMapper {
 	PendudukModel checkDoubleNIK(String nik);
 	
 	
-	 @Update ("update penduduk set nik=#{nikbaru}, nama=#{penduduk.nama}, "
-	 		+ "id_keluarga=#{penduduk.id_keluarga}, pekerjaan=#{penduduk.pekerjaan}, jenis_kelamin=#{penduduk.jenis_kelamin}, "
-	 		+ "agama=#{penduduk.agama}, tanggal_lahir=#{penduduk.tanggal_lahir}, is_wni=#{penduduk.is_wni},"
-	 		+ " status_dalam_keluarga=#{penduduk.status_dalam_keluarga}, golongan_darah=#{penduduk.golongan_darah},"
-	 		+ " tempat_lahir=#{penduduk.tempat_lahir}, status_perkawinan=#{penduduk.status_perkawinan} where nik=#{penduduk.nik}")
-	 void updatePenduduk(@Param("penduduk") PendudukModel penduduk, @Param("nikbaru") String nikbaru);
+	 @Update ("update penduduk set nama=#{nama}, "
+	 		+ "id_keluarga=#{id_keluarga}, pekerjaan=#{pekerjaan}, jenis_kelamin=#{jenis_kelamin}, "
+	 		+ "agama=#{agama}, tanggal_lahir=#{tanggal_lahir}, is_wni=#{is_wni},"
+	 		+ " status_dalam_keluarga=#{status_dalam_keluarga}, golongan_darah=#{golongan_darah},"
+	 		+ " tempat_lahir=#{tempat_lahir}, status_perkawinan=#{status_perkawinan} where nik=#{nik}")
+	 void updatePenduduk(PendudukModel penduduk);
 	 
-//	@Update("UPDATE penduduk set nik=#{nikbaru} WHERE nik=#{niklama}")
-//	void updateNik(@Param("niklama") String niklama,@Param("nikbaru") String nikbaru);
+	@Update ("UPDATE penduduk set nik=#{nik} where nik=#{niklama}")
+	void updateNIK(@Param("nik") String nik, @Param("niklama") String niklama);
 	
 	
 	@Select("select kode_kelurahan from kelurahan where nama_kelurahan=#{kelurahan}")
@@ -92,7 +93,16 @@ public interface SidukMapper {
 			+ "#{id_kelurahan}, #{is_tidak_berlaku})")
 	void addKeluarga(KeluargaModel keluarga);
 	
-	@Update ("UPDATE keluarga set nomor_kk=#{nkkbaru}, alamat=#{keluarga.alamat}, rt=#{keluarga.rt}, rw=#{keluarga.rw}, #id_kelurahan={keluarga.id_keluharan} where nomor_kk=#{keluarga.nomor_kk}")
-	void updateKeluarga(@Param("keluarga") KeluargaModel keluarga, @Param("nkkbaru") String nkkbaru);
+	@Update ("UPDATE keluarga set alamat=#{alamat}, rt=#{rt}, rw=#{rw}, "
+			+ "id_kelurahan=#{id_kelurahan} where nomor_kk=#{nomor_kk}")
+	void updateKeluarga(@Param("alamat") String alamat, @Param("id_kelurahan") String id_kelurahan, 
+			@Param("rt") String rt, @Param("rw") String rw, @Param("nomor_kk") String nkklama);
+	
+	@Update ("UPDATE keluarga set nomor_kk=#{nkkbaru} where nomor_kk=#{nkklama}")
+	void updateNKK(@Param("nkkbaru") String nkkbaru, @Param("nkklama") String nkklama);
+	
+	@Select("select * from kota")
+	List<KotaModel> getListKota();
+	
 
 }

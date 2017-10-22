@@ -19,6 +19,6 @@ public class KeluargaModel {
 	private String kelurahan;
 	private String kecamatan;
 	private String kota;
-	private boolean is_tidak_berlaku;
+	private String is_tidak_berlaku;
 	private List<PendudukModel> anggota;
 }

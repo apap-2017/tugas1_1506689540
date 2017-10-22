@@ -11,18 +11,32 @@
 		<div th:replace="fragments/fragment :: header"></div>
 		<div th:replace="fragments/fragment :: space"></div>
 		
+		<div class="container">
 		<h1 class="page-header">Tambah Keluarga</h1>
-		
+		<hr/>
 		<form action="/keluarga/tambah" th:object="${keluarga}" method="POST">
-			<label for="alamat">Alamat</label> <input type="text" name="alamat" />
-			<label for="rw">RW</label> <input type="text" name="rw" />
-			<label for="rt">RT</label> <input type="text" name="rt" />
-			<label for="kelurahan">Kelurahan</label> <input type="text" name="kelurahan" />
-			<div>
-			<button type="submit" name="action" value="save">Save</button>
+			<div class="form-group">
+			<label for="alamat">Alamat</label>
+			<input class="form-control" type="text" name="alamat" />
+			</div>
+			<div class="form-group">
+			<label for="rw">RW</label> 
+			<input class="form-control" type="text" name="rw" />
+			</div>
+			<div class="form-group">
+			<label for="rt">RT</label> 
+			<input class="form-control" type="text" name="rt" />
+			</div>
+			<div class="form-group">
+			<label for="kelurahan">Kelurahan</label> 
+			<input class="form-control" type="text" name="kelurahan" />
+			</div>
+			<div class="form-group">
+			<button class="btn btn-primary" type="submit" name="action" value="save">Save</button>
 			</div>
 		</form>
-
+	</div>
+	<div th:replace="fragments/fragment :: footer"></div>
 	</body>
 
 </html>
