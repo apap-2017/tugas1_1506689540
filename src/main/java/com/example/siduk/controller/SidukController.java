@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
+import com.example.siduk.model.KecamatanModel;
 import com.example.siduk.model.KeluargaModel;
+import com.example.siduk.model.KelurahanModel;
 import com.example.siduk.model.KotaModel;
 import com.example.siduk.model.PendudukModel;
 import com.example.siduk.service.SidukService;
@@ -32,8 +33,24 @@ public class SidukController {
     }
 	
 	@RequestMapping("/penduduk/cari")
-	public String cariPenduduk(Model model) {
+	public String cariPenduduk(Model model, 
+			@RequestParam(value = "idkota", defaultValue = "0") String idkota, 
+			@RequestParam(value = "idkec", defaultValue = "0") String idkec, 
+			@RequestParam(value = "idkel", defaultValue = "0") String idkel) {
 		model.addAttribute("title", "Pencarian Penduduk");
+		if (!idkota.equals("0")) {
+			List<KecamatanModel> kecs = sidukDAO.getListKecamatan(idkota);
+			model.addAttribute("kecamatans", kecs);
+			if (!idkec.equals("0")) {
+				List<KelurahanModel> kels = sidukDAO.getListKelurahan(idkec);
+				model.addAttribute("kelurahans", kels);
+				if(!idkel.equals("0")) {
+					List<PendudukModel> anggota = sidukDAO.getListPenduduk(idkel);
+					model.addAttribute("anggota", anggota);
+					
+				}
+			}
+		}
 		List<KotaModel> kotas = sidukDAO.getListKota();
 		model.addAttribute("kotas", kotas);
 		return "cari-data";

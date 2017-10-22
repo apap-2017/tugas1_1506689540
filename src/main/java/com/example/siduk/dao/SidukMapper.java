@@ -109,7 +109,7 @@ public interface SidukMapper {
 	@Select("select * from kelurahan where id_kecamatan=#{id_kecamatan}")
 	List<KelurahanModel> getListKelurahan(String id_kecamatan);
 
-	@Select("select * from kelurahan where id_kota=#{id_kota}")
+	@Select("select * from kecamatan where id_kota=#{id_kota}")
 	List<KecamatanModel> getListKecamatan(String id_kota);
 	
 	@Update ("update penduduk set is_wafat='1' where nik=#{nik}")
@@ -118,8 +118,7 @@ public interface SidukMapper {
 	@Update ("update keluarga set is_tidak_berlaku='1' where nomor_kk=#{nomor_kk}")
 	void updateStatKeluarga(String nomor_kk);
 	
-	@Select ("select * from penduduk join keluarga on id_keluarga=keluarga.id where "
-			+ "id_keluarga in (select id_keluarga from penduduk where nik=#{nik})")
+	@Select ("select * from penduduk join keluarga on id_keluarga=keluarga.id where id_keluarga in (select id_keluarga from penduduk where nik=#{nik})")
 	List<PendudukModel> selectAnggotaDariIdFam(String nik);
 	
 	@Select ("select * from penduduk join keluarga on id_keluarga=keluarga.id where nomor_kk=#{nomor_kk} and is_wafat='1'")
@@ -127,6 +126,9 @@ public interface SidukMapper {
 
 	@Select ("select * from keluarga join penduduk on id_keluarga=keluarga.id where nik=#{nik} limit 1")
 	KeluargaModel selectKeluargaByAnggota(String nik);
+	
+	@Select ("select * from penduduk where id_keluarga in (select id from keluarga where id_kelurahan=#{idkel})")
+	List<PendudukModel> selectPendudukListByKel(String idkel);
 	
 
 }

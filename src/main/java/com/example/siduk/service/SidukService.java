@@ -33,4 +33,6 @@ public interface SidukService{
 
 	String updateKematian(String nik);
 
+	List<PendudukModel> getListPenduduk(String idkel);
+
 }

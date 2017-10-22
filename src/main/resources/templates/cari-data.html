@@ -1,18 +1,81 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
  <div th:replace="fragments/fragment :: kepala"></div>
+        <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" type="text/css"/>
+        <link href="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/css"/>
+ 
 </head>
 	<body>
 		<div th:replace="fragments/fragment :: header"></div>
 		<div th:replace="fragments/fragment :: space"></div>
 		<div class="container">
-			<div class="form-group blu-margin">
+			<div>
+				<form class="form-group" action="/penduduk/cari" method="get" th:object="${kotas}">
+				<label>Kota</label>
 			    <select class="form-control">
-			    <option th:each="kota : ${kotas}" th:value="${kota.kode_kota}" th:text="${kota.nama_kota}"></option>
+			    <option name="idkota" th:each="kota : ${kotas}" th:value="${kota.id}" th:text="${kota.nama_kota}"></option>
 			    </select>
+			    <button class="btn btn-warning" type="submit">Pilih</button>
+			    </form>
+			    <div th:unless="${idkota}=='0'">
+				<form action="/penduduk/cari" method="get" th:object="${kecamatans}">
+				<label>Kecamatan</label>
+			    <select class="form-control">
+			    <option th:each="kecamatan : ${kecamatans}" th:value="${kecamatan.kode_kecamatan}" th:text="${kecamatan.nama_kecamatan}"></option>
+			    </select>
+			    <button class="btn btn-warning" type="submit">Pilih</button>
+			    </form>
+			    </div>
+			    <div th:unless="${idkec}=='0'">
+				<form action="/penduduk/cari" method="get">
+			    <label>Kelurahan</label>
+			    <select class="form-control">
+			    <option th:each="kelurahan : ${kelurahans}" th:value="${kelurahan.kode_kelurahan}" th:text="${kelurahan.nama_kelurahan}"></option>
+			    </select>
+			    <button class="btn btn-warning" type="submit">Pilih</button>
+			    </form>
+			    </div>
 			</div>
+			<table id="myTable" class="display">
+				<thead>
+					<tr>
+						<th>No.</th>
+						<th>Nama</th>
+						<th>NIK</th>
+						<th>Jenis Kelamin</th>
+						<th>TTL</th>
+						<th>Agama</th>
+						<th>Pekerjaan</th>
+						<th>Status Perkawinan</th>
+						<th>Status dalam Keluarga</th>
+						<th>Kewarganegaraan</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-th-each="anggota,iterStats: ${anggota}">
+						<td data-th-text="${iterStats.index+1}">No</td>
+						<td data-th-text="${anggota.nama}">Nama</td>
+						<td data-th-text="${anggota.nik}">NIK</td>
+						<td data-th-text="${anggota.jenis_kelamin}=='1' ? 'Wanita' : 'Pria'">Jenis Kelamin</td>
+						<td data-th-text="${anggota.tempat_lahir}+', '+${anggota.tanggal_lahir}">Tempat Lahir</td>
+						<td data-th-text="${anggota.agama}">Agama</td>
+						<td data-th-text="${anggota.pekerjaan}">Pekerjaan</td>
+						<td data-th-text="${anggota.status_perkawinan}">Status Perkawinan</td>
+						<td data-th-text="${anggota.status_dalam_keluarga}">Status dalam Keluarga</td>
+						<td data-th-text="${anggota.is_wni}=='1' ? 'WNI' : 'WNA'">Kewarganegaraan</td>
+						</tr>
+				</tbody>
+			</table>
 		</div>
 		
 		<div th:replace="fragments/fragment :: footer"></div>
+		<script>
+	    	$(document).ready( function () {
+	    	    $('#myTable').DataTable();
+	    	    $('#myTable').DataTable(
+	    	    	"paging":true		
+	    	    );
+	    	} );
+    	</script>
 	</body>
 </html>

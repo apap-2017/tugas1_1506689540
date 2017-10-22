@@ -1,0 +1,25 @@
+WRITE UP TUGAS 1 ADPAP
+
+
+
+Pada pengembangan tugas kali ini ada beberapa tahap yang saya lakukan, antara lain:
+1. Saya membuat kelas pada lapisan Controller. Alasan saya membuat hanya satu kelas ialah karena menurut saya fungsi yang diminta untuk dibuat belum terlalu banyak sehingga harus dipisah.
+2. Setelah membuat lapisan Controller, saya juga membuat kelas pada lapisan Service dan juga kelas Mapper untuk penghubung ke databasenya.
+3. Setelah membuat kelas Controller tersebut saya membuat method -method yang dibutuhkan satu persatu, lalu juga membuat file HTML yang akan digunakan dalam View untuk menampilkan hasil method.
+4. Setelah method pada Controller terbuat, dan View yang dituju sudah dibuat, saya melanjutkan dengan Memmbuat method pada lapisan service. Kebanyakan logic diletakan pada lapisan ini.
+5. Setelahnya saya membuat query pada kelas Mapper untuk mengelola data pada database.
+
+Fitur yang saya telah selesaikan ialah:
+> Fitur tambah dan perbaharui penduduk
+> Fitur tambah dan perbaharui keluarga
+> Fitur ubah status kematian penduduk
+> Menambahkan halaman error
+> Pembuatan Method untuk generate NIK dan NKK sesuai masukan
+
+Hal lain yang saya lakukan diluar fitur disebutkan:
+> Saya melakukan optimisasi database dengan menambahkan primary index kepada tiap table di database
+> selain primary index, saya juga membuat index lain untuk table keluarga yakni pada id_keluarga karena banyak digunakan dalam query
+> Penggunaan fragment juga dilakukan agar tidak kesulitan menyamakan tiap halaman
+
+Bukti optimasi database: https://imgur.com/a/3np3s
+Struktur Project: https://imgur.com/a/tDsi5

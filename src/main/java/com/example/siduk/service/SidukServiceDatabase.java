@@ -204,6 +204,12 @@ public class SidukServiceDatabase implements SidukService {
 		log.info("diediediedie 3");
 		} return "1" ;
 	}
+
+	@Override
+	public List<PendudukModel> getListPenduduk(String idkel) {
+		List<PendudukModel> penduduks = sidukMapper.selectPendudukListByKel(idkel);
+		return penduduks;
+	}
 	
 
 }
