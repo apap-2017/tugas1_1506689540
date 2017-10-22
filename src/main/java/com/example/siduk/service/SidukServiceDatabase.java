@@ -103,10 +103,9 @@ public class SidukServiceDatabase implements SidukService {
 		log.info("add penduduk dengan id 3 {}", nik);
 		
 		String[] tgl = penduduk.getTanggal_lahir().split("-");
-		nik += tgl[0].substring(2)+tgl[1];
 		int tanggal = Integer.parseInt(tgl[2]) + Integer.parseInt(penduduk.getJenis_kelamin())*40;
 		if(tanggal<10) nik+="0";
-		nik += tanggal;		
+		nik += tanggal + tgl[1]+tgl[0].substring(2);
 		log.info("add penduduk dengan id 2 {}", nik);
 		PendudukModel doubles = sidukMapper.checkDoubleNIK(nik);
 		
@@ -143,7 +142,7 @@ public class SidukServiceDatabase implements SidukService {
 		String nkk = sidukMapper.selectNoKelurahan(keluarga.getKelurahan()).substring(0,6);
 		log.info("Nomor KK 1 {}", nkk);
 		LocalDate date = LocalDate.now(); 
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyy");
 		nkk+= date.format(formatter);
 		log.info(nkk);
 		KeluargaModel doubles = sidukMapper.checkDoubleNKK(nkk);
