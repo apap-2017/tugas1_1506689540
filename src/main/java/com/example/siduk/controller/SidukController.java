@@ -122,11 +122,12 @@ public class SidukController {
     	return "success-update";
     }
 	
-	@RequestMapping(value="/penduduk/mati", method=RequestMethod.POST)
-	public String nonAktifPenduduk(Model model, @PathVariable(value = "nik") String nik) {
-		String is_wafat = sidukDAO.updateKematian(nik);
-		model.addAttribute("is_wafat", is_wafat);
-		return "redirect:/penduduk?nik=" + nik;
+	@RequestMapping(value="/penduduk/mati")
+	public String nonAktifPenduduk(Model model, @RequestParam(value = "nik", required = false) String nik) {
+		sidukDAO.updateKematian(nik);
+		model.addAttribute("link", "/penduduk?nik="+nik);
+		model.addAttribute("mati", "Penduduk dengan NIK "+nik);
+		return "mati";
 	}
 	
 	@RequestMapping("/keluarga/ubah/{nkk}")

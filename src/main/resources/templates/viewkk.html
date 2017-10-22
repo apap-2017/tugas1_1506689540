@@ -41,11 +41,12 @@
 						  </table>
 					</div>
 				 </div>
-			</div>
-			<div class="row">
-				<div class="col-sm-2"></div>
-				<div class="col-sm-4"><a class="btn btn-secondary" th:href="'/keluarga/ubah/'+${keluarga.nomor_kk}">Perbaharui Keluarga</a>
-				</div>
+				 <div class="col-sm-2"></div>
+				 <div class="col-sm-4 jumbotron">
+				 <h4>Status Kartu Keluarga</h4>
+				 <h5 th:text="${keluarga.is_tidak_berlaku}=='1' ? 'Tidak Berlaku' : 'Aktif'"></h5>
+				 <a class="btn btn-secondary" th:href="'/keluarga/ubah/'+${keluarga.nomor_kk}">Perbaharui Keluarga</a>
+				 </div>
 			</div>
 			<br/>
 			<div class="row">

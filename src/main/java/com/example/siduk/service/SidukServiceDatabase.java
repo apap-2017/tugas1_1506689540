@@ -194,6 +194,8 @@ public class SidukServiceDatabase implements SidukService {
 	@Override
 	public String updateKematian(String nik) {
 		sidukMapper.updateKematian(nik);
+		sidukMapper.updateStatKeluarga(nik);
+		log.info("diediediedie");
 		return "1" ;
 	}
 	
