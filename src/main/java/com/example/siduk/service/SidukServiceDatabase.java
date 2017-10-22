@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.siduk.dao.SidukMapper;
+import com.example.siduk.model.KecamatanModel;
 import com.example.siduk.model.KeluargaModel;
+import com.example.siduk.model.KelurahanModel;
 import com.example.siduk.model.KotaModel;
 import com.example.siduk.model.PendudukModel;
 
@@ -177,7 +179,23 @@ public class SidukServiceDatabase implements SidukService {
 	@Override
 	public List<KotaModel> getListKota() {
 		return sidukMapper.getListKota();
-		
 	}
+	
+	@Override
+	public List<KelurahanModel> getListKelurahan(String id_kecamatan) {
+		return sidukMapper.getListKelurahan(id_kecamatan);
+	}
+	
+	@Override
+	public List<KecamatanModel> getListKecamatan(String id_kota) {
+		return sidukMapper.getListKecamatan(id_kota);
+	}
+
+	@Override
+	public String updateKematian(String nik) {
+		sidukMapper.updateKematian(nik);
+		return "1" ;
+	}
+	
 
 }

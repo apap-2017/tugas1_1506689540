@@ -3,7 +3,9 @@ package com.example.siduk.service;
 import java.util.List;
 
 import com.example.siduk.model.KotaModel;
+import com.example.siduk.model.KecamatanModel;
 import com.example.siduk.model.KeluargaModel;
+import com.example.siduk.model.KelurahanModel;
 import com.example.siduk.model.PendudukModel;
 
 public interface SidukService{
@@ -24,5 +26,11 @@ public interface SidukService{
 	void updateKeluarga(KeluargaModel keluarga, String nkk);
 
 	List<KotaModel> getListKota();
+
+	List<KelurahanModel> getListKelurahan(String id_kecamatan);
+
+	List<KecamatanModel> getListKecamatan(String id_kota);
+
+	String updateKematian(String nik);
 
 }

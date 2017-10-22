@@ -122,10 +122,12 @@ public class SidukController {
     	return "success-update";
     }
 	
-//	@RequestMapping(value="/penduduk/mati", method=RequestMethod.POST)
-//	public String nonAktifPenduduk(Model model, @ModelAttribute PendudukModel penduduk) {
-//		sidukDAO.updateKematian()
-//	}
+	@RequestMapping(value="/penduduk/mati", method=RequestMethod.POST)
+	public String nonAktifPenduduk(Model model, @PathVariable(value = "nik") String nik) {
+		String is_wafat = sidukDAO.updateKematian(nik);
+		model.addAttribute("is_wafat", is_wafat);
+		return "redirect:/penduduk?nik=" + nik;
+	}
 	
 	@RequestMapping("/keluarga/ubah/{nkk}")
     public String ubahKeluarga (Model model,
@@ -136,6 +138,7 @@ public class SidukController {
 
         if (keluarga != null) {
             model.addAttribute ("keluarga", keluarga);
+            model.addAttribute("tipe_sukses", "Data Keluarga dengan NKK "+keluarga.getNomor_kk());
             return "keluarga-update";
         } else {
             model.addAttribute ("nkk", nkk);

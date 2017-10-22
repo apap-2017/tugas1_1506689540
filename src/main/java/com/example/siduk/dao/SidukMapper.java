@@ -11,7 +11,9 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.example.siduk.model.KecamatanModel;
 import com.example.siduk.model.KeluargaModel;
+import com.example.siduk.model.KelurahanModel;
 import com.example.siduk.model.KotaModel;
 import com.example.siduk.model.PendudukModel;
 
@@ -103,6 +105,15 @@ public interface SidukMapper {
 	
 	@Select("select * from kota")
 	List<KotaModel> getListKota();
+
+	@Select("select * from kelurahan where id_kecamatan=#{id_kecamatan}")
+	List<KelurahanModel> getListKelurahan(String id_kecamatan);
+
+	@Select("select * from kelurahan where id_kota=#{id_kota}")
+	List<KecamatanModel> getListKecamatan(String id_kota);
+	
+	@Update ("update penduduk set is_wafat='1' where nik=#{nik}")
+	void updateKematian(String nik);
 	
 
 }
