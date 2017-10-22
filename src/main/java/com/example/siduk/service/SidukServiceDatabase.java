@@ -194,9 +194,15 @@ public class SidukServiceDatabase implements SidukService {
 	@Override
 	public String updateKematian(String nik) {
 		sidukMapper.updateKematian(nik);
-		sidukMapper.updateStatKeluarga(nik);
 		log.info("diediediedie");
-		return "1" ;
+		KeluargaModel id = sidukMapper.selectKeluargaByAnggota(nik);
+		log.info(id.getNomor_kk());
+		List<PendudukModel> anggota = sidukMapper.selectAnggotaDariIdFam(nik);
+		List<PendudukModel> anggotamati = sidukMapper.selectAnggotaMati(id.getNomor_kk());
+		if (anggota.equals(anggotamati)) {
+		sidukMapper.updateStatKeluarga(id.getNomor_kk());
+		log.info("diediediedie 3");
+		} return "1" ;
 	}
 	
 

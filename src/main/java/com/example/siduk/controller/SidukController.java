@@ -126,7 +126,7 @@ public class SidukController {
 	public String nonAktifPenduduk(Model model, @RequestParam(value = "nik", required = false) String nik) {
 		sidukDAO.updateKematian(nik);
 		model.addAttribute("link", "/penduduk?nik="+nik);
-		model.addAttribute("mati", "Penduduk dengan NIK "+nik);
+		model.addAttribute("tipe_sukses", "Penduduk dengan NIK "+nik);
 		return "mati";
 	}
 	

@@ -115,12 +115,18 @@ public interface SidukMapper {
 	@Update ("update penduduk set is_wafat='1' where nik=#{nik}")
 	void updateKematian(String nik);
 	
-	@Update ("")
-	void updateStatKeluarga(String nik);
+	@Update ("update keluarga set is_tidak_berlaku='1' where nomor_kk=#{nomor_kk}")
+	void updateStatKeluarga(String nomor_kk);
 	
 	@Select ("select * from penduduk join keluarga on id_keluarga=keluarga.id where "
 			+ "id_keluarga in (select id_keluarga from penduduk where nik=#{nik})")
 	List<PendudukModel> selectAnggotaDariIdFam(String nik);
+	
+	@Select ("select * from penduduk join keluarga on id_keluarga=keluarga.id where nomor_kk=#{nomor_kk} and is_wafat='1'")
+	List<PendudukModel> selectAnggotaMati(String nomor_kk);
+
+	@Select ("select * from keluarga join penduduk on id_keluarga=keluarga.id where nik=#{nik} limit 1")
+	KeluargaModel selectKeluargaByAnggota(String nik);
 	
 
 }
